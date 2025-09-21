@@ -63,10 +63,10 @@ export function MultiSelect({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("w-full justify-between focus:ring-[#3b36cf] focus:border-[#3b36cf] transition-all duration-200", className)}
+          className={cn("w-full min-h-[2.5rem] h-auto justify-between bg-white focus:ring-[#3b36cf] focus:border-[#3b36cf] transition-all duration-200", className)}
           disabled={disabled}
         >
-          <div className="flex gap-1 flex-wrap">
+          <div className="flex gap-1 flex-wrap items-center flex-1 min-w-0">
             {selected.length > 0 ? (
               selected.map((item) => {
                 const option = options.find((opt) => opt.value === item)
@@ -74,11 +74,11 @@ export function MultiSelect({
                   <Badge
                     variant="secondary"
                     key={item}
-                    className="mr-1 mb-1 bg-[#e4e1ff] text-[#2d249e] hover:bg-[#cbc6ff]"
+                    className="flex items-center gap-1 bg-[#e4e1ff] text-[#2d249e] hover:bg-[#cbc6ff] text-xs px-2 py-1"
                   >
-                    {option?.label}
+                    <span className="truncate max-w-[120px]">{option?.label}</span>
                     <button
-                      className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                      className="flex-shrink-0 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           handleUnselect(item)
@@ -88,7 +88,11 @@ export function MultiSelect({
                         e.preventDefault()
                         e.stopPropagation()
                       }}
-                      onClick={() => handleUnselect(item)}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        handleUnselect(item)
+                      }}
                     >
                       <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
                     </button>
@@ -96,13 +100,13 @@ export function MultiSelect({
                 )
               })
             ) : (
-              <span>{placeholder}</span>
+              <span className="text-muted-foreground">{placeholder}</span>
             )}
           </div>
-          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50 ml-2" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
+      <PopoverContent className="w-full p-0 bg-white">
         <Command>
           <CommandInput placeholder="Search..." />
           <CommandEmpty>No item found.</CommandEmpty>

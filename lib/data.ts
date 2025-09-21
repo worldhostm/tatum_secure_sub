@@ -1,4 +1,4 @@
-import { CloudConfig } from "@/types"
+import { CloudConfig } from "@/types/types"
 
 export const mockCloudConfigs: CloudConfig[] = [
   {

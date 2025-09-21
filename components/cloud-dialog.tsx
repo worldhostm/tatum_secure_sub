@@ -3,15 +3,15 @@
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { 
-  CloudConfig, 
-  CloudConfigFormData, 
-  CloudConfigSchema, 
+import {
+  CloudConfig,
+  CloudConfigFormData,
+  CloudConfigSchema,
   CloudProvider,
   PROVIDER_CONFIGS,
   CLOUD_GROUP_NAMES,
   REGIONS
-} from "@/types"
+} from "@/types/types"
 import { cloudApi } from "@/lib/api"
 import {
   Dialog,

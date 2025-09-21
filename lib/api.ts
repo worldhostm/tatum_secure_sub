@@ -1,4 +1,4 @@
-import { CloudConfig, CloudConfigFormData } from "@/types"
+import { CloudConfig, CloudConfigFormData } from "@/types/types"
 import { mockCloudConfigs } from "./data"
 
 const mockData = [...mockCloudConfigs]
