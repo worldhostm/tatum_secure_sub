@@ -44,11 +44,11 @@ export function MultiSelect({
 }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false)
 
-  const handleUnselect = (item: string) => {
+  const onRemoveItem = (item: string) => {
     onSelectionChange(selected.filter((s) => s !== item))
   }
 
-  const handleSelect = (item: string) => {
+  const onSelectItem = (item: string) => {
     if (selected.includes(item)) {
       onSelectionChange(selected.filter((s) => s !== item))
     } else {
@@ -77,11 +77,15 @@ export function MultiSelect({
                     className="flex items-center gap-1 bg-[#e4e1ff] text-[#2d249e] hover:bg-[#cbc6ff] text-xs px-2 py-1"
                   >
                     <span className="truncate max-w-[120px]">{option?.label}</span>
-                    <button
-                      className="flex-shrink-0 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    <span
+                      className="flex-shrink-0 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 cursor-pointer inline-flex items-center justify-center"
+                      role="button"
+                      tabIndex={0}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          handleUnselect(item)
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          onRemoveItem(item)
                         }
                       }}
                       onMouseDown={(e) => {
@@ -91,11 +95,11 @@ export function MultiSelect({
                       onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
-                        handleUnselect(item)
+                        onRemoveItem(item)
                       }}
                     >
                       <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                    </button>
+                    </span>
                   </Badge>
                 )
               })
@@ -115,7 +119,7 @@ export function MultiSelect({
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
-                  onSelect={() => handleSelect(option.value)}
+                  onSelect={() => onSelectItem(option.value)}
                 >
                   <Check
                     className={cn(

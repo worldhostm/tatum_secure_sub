@@ -152,7 +152,7 @@ export interface CloudConfig {
   scheduleScanSetting?: ScheduleScanSetting
   regionList: string[]
   proxyUrl?: string
-  credentials: any
+  credentials: AWSCredential | AzureCredential | GCPCredential
   credentialType: AWSCredentialType | AzureCredentialType | GCPCredentialType
   eventSource?: string[]
   isActive?: boolean

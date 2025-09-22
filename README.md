@@ -1,39 +1,112 @@
 # 클라우드 구성 관리 시스템
 
-AWS, Azure, GCP 등 다수 클라우드 제공업체 구성을 관리하는 Next.js 애플리케이션입니다. TypeScript, React, Tailwind CSS, shadcn/ui 컴포넌트로 구축되었습니다.
+Next.js, TypeScript, Tailwind CSS로 구축된 현대적인 클라우드 구성 관리 애플리케이션입니다. AWS, Azure, GCP 등 다중 클라우드 구성을 관리하는 포괄적인 인터페이스를 제공합니다.
 
 ## 🚀 주요 기능
 
 ### 핵심 기능
-- **다중 클라우드 지원**: AWS (완전 구현), Azure & GCP (개발 예정)
-- **동적 폼 필드**: 선택한 제공업체에 따라 적응하는 구성 필드
-- **다중 선택 컴포넌트**: 여러 클라우드 그룹 및 리전 선택
-- **폼 검증**: Zod 스키마 검증을 활용한 강력한 유효성 검사
-- **실시간 업데이트**: 현실적인 UX를 위한 500ms 지연 모의 API 응답
-- **공유 다이얼로그**: 생성 및 편집 작업을 위한 단일 재사용 가능한 컴포넌트
+- **다중 클라우드 지원**: AWS, Azure, GCP 구성 관리
+- **클라우드 구성 관리**: 클라우드 구성의 생성, 조회, 수정, 삭제
+- **실시간 상태 모니터링**: 활성/비활성 상태 및 스캔 스케줄 확인
+- **프로바이더별 설정**: 각 클라우드 프로바이더에 맞춤화된 자격 증명 관리
 
-### UX 기능
-- **로딩 상태**: API 호출 중 스피너 및 비활성화 상태
-- **오류 처리**: 성공 및 오류 메시지를 위한 토스트 알림
-- **반응형 디자인**: 모바일 친화적인 테이블 및 폼 레이아웃
-- **호버 효과**: 상호작용 버튼 상태 및 시각적 피드백
-- **폼 초기화**: 적절한 폼 상태 관리 및 정리
+### 사용자 인터페이스
+- **반응형 디자인**: 데스크톱 및 모바일에 최적화
+- **고정 컬럼 레이아웃**: Edit과 Delete 작업이 항상 오른쪽에 표시
+- **스마트 스크롤**: 고정 액션 컬럼과 함께 대형 테이블의 가로 스크롤
+- **동적 그림자**: 스크롤 활성화 시 시각적 표시기
+- **브랜드 일관성 디자인**: `#3B36CF` 브랜드 컬러를 사용한 커스텀 색상 체계
+
+### 고급 기능
+- **폼 검증**: Zod 스키마를 사용한 포괄적인 검증
+- **타입 안전성**: 완전한 TypeScript 구현
+- **프로바이더 아이콘**: Lucide React 아이콘을 사용한 시각적 클라우드 프로바이더 식별
+- **페이지네이션**: 대용량 데이터셋의 효율적 처리 (페이지당 50개 항목)
+- **토스트 알림**: 모든 작업에 대한 사용자 피드백
 
 ## 🛠️ 기술 스택
 
-- **프레임워크**: Next.js 15 with App Router
-- **언어**: TypeScript
-- **스타일링**: Tailwind CSS
-- **UI 컴포넌트**: shadcn/ui
-- **폼 처리**: React Hook Form + Zod 검증
-- **상태 관리**: React useState (모의 데이터)
-- **알림**: Sonner 토스트 라이브러리
+### 프론트엔드
+- **프레임워크**: Next.js 15.5.3 with Turbopack
+- **언어**: TypeScript 5
+- **스타일링**: Tailwind CSS 4 with 커스텀 브랜드 컬러
+- **UI 컴포넌트**: Radix UI 기본 요소와 커스텀 스타일링
+- **아이콘**: Lucide React
+- **폼**: React Hook Form with Zod 검증
 
-## 📦 설치 방법
+### 상태 관리
+- **로컬 상태**: React useState and useEffect
+- **폼 상태**: React Hook Form
+- **API 상태**: 모의 데이터를 사용한 커스텀 API 레이어
+
+### 개발 도구
+- **린팅**: ESLint 9 with Next.js config
+- **타입 체크**: TypeScript strict mode
+- **빌드 도구**: Next.js with Turbopack
+
+## 📁 프로젝트 구조
+
+```
+cloud-management/
+├── app/                          # Next.js app 디렉토리
+│   ├── layout.tsx               # 글로벌 프로바이더가 있는 루트 레이아웃
+│   ├── page.tsx                 # 홈 페이지
+│   └── globals.css              # 글로벌 스타일 및 브랜드 컬러
+├── components/                   # React 컴포넌트
+│   ├── cloud-dialog.tsx         # 생성/수정 작업용 모달
+│   ├── cloud-list-page.tsx      # 메인 페이지 컴포넌트
+│   ├── cloud-provider-logo.tsx  # 클라우드 프로바이더 아이콘
+│   ├── cloud-table.tsx          # 고급 데이터 테이블
+│   └── ui/                      # 재사용 가능한 UI 컴포넌트
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── dialog.tsx
+│       ├── form.tsx
+│       ├── input.tsx
+│       ├── table.tsx
+│       └── ...
+├── lib/                         # 유틸리티 라이브러리
+│   ├── api.ts                   # 모의 데이터가 있는 API 레이어
+│   ├── data.ts                  # 모의 데이터 정의
+│   └── utils.ts                 # 유틸리티 함수
+├── types/                       # TypeScript 타입 정의
+│   └── types.ts                 # 모든 애플리케이션 타입
+├── public/                      # 정적 자산
+└── docs/
+    └── COLOR_GUIDE.md           # 브랜드 컬러 가이드라인
+```
+
+## 🎨 디자인 시스템
+
+### 브랜드 컬러
+- **주색상**: `#3B36CF` - 메인 브랜드 컬러
+- **호버**: `#342DB8` - 상호작용을 위한 더 어두운 변형
+- **밝은색**: `#F0EFFF` - 밝은 배경 및 미묘한 강조
+
+### 컴포넌트 스타일링
+- **편집 아이콘**: 브랜드 컬러 (`#3B36CF`)
+- **삭제 아이콘**: 빨간색 (`#EF4444`)
+- **활성 상태**: 녹색 표시기
+- **프로바이더 배지**: 프로바이더별 색상 코드
+- **클라우드 그룹 & 리전**: 브랜드 컬러 배지
+
+### 상호작용 요소
+- **호버 효과**: 미묘한 애니메이션 및 색상 전환
+- **포커스 상태**: 접근 가능한 포커스 표시기
+- **로딩 상태**: 스피너 애니메이션
+- **토스트 메시지**: 성공/오류 피드백
+
+## 🔧 설치 및 설정
+
+### 필수 요구 사항
+- Node.js 18+ 
+- npm 또는 yarn 패키지 매니저
+
+### 설치
 
 ```bash
 # 저장소 복제
-git clone [repository-url]
+git clone <repository-url>
 cd cloud-management
 
 # 종속성 설치
@@ -41,993 +114,658 @@ npm install
 
 # 개발 서버 시작
 npm run dev
-
-# 프로덕션 빌드
-npm run build
 ```
 
-브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 결과를 확인하세요.
+### 사용 가능한 스크립트
 
-## 🏗️ 프로젝트 구조
-
-```
-cloud-management/
-├── app/
-│   ├── globals.css          # 글로벌 스타일
-│   ├── layout.tsx           # 토스터가 포함된 루트 레이아웃
-│   └── page.tsx             # 메인 페이지 컴포넌트
-├── components/
-│   ├── ui/                  # shadcn/ui 컴포넌트
-│   │   ├── dialog.tsx
-│   │   ├── form.tsx
-│   │   ├── multi-select.tsx # 커스텀 다중 선택 컴포넌트
-│   │   └── ...
-│   ├── cloud-dialog.tsx     # 메인 폼 다이얼로그
-│   ├── cloud-list-page.tsx  # 목록 페이지 컨테이너
-│   └── cloud-table.tsx      # 데이터 테이블 컴포넌트
-├── lib/
-│   ├── api.ts              # 모의 API 함수
-│   ├── data.ts             # 샘플 데이터
-│   └── utils.ts            # 유틸리티 함수
-└── types/
-    └── index.ts            # 타입 정의 및 스키마
-```
-
-## 🔧 주요 설계 결정사항
-
-### 확장 가능한 컴포넌트 아키텍처
-
-#### 1. 프로바이더 구성 시스템
-```typescript
-interface ProviderFieldConfig {
-  provider: CloudProvider
-  credentialFields: FieldConfig[]
-  eventSources: string[]
-  disabled: boolean
-}
-```
-
-`PROVIDER_CONFIGS` 객체는 프로바이더별 필드, 검증 규칙, 이벤트 소스가 포함된 새로운 구성 객체를 추가하기만 하면 새로운 클라우드 프로바이더를 쉽게 추가할 수 있게 합니다.
-
-#### 2. 동적 폼 필드 생성
-다이얼로그 컴포넌트는 선택된 프로바이더에 따라 자격 증명 필드를 동적으로 렌더링하여, 향후 프로바이더에 대한 유연성을 유지하면서 타입 안전성을 보장합니다.
-
-#### 3. 공유 컴포넌트 패턴
-단일 `CloudDialog` 컴포넌트가 생성 및 편집 작업을 모두 처리합니다:
-- `config` prop의 존재 여부로 편집 모드 감지
-- 폼 필드 동적 채우기
-- 버튼 텍스트 및 API 호출 적절히 조정
-
-## 📊 API 관리 전략 (필수)
-
-> **테이텀 시큐리티 요구사항**: 본 과제에서는 단일 API만 사용하지만, 테이텀 시큐리티에서는 총 400여 가지의 API를 React Query를 사용하여 관리하고 있습니다. 따라서 다수의 API를 효율적으로 관리하기 위한 실무 관점의 전체 과정을 제시합니다.
->
-> **핵심 관리 요소**:
-> 1. 📚 **API 문서 확인**: OpenAPI/Swagger 명세에서 자동 타입 생성
-> 2. 📝 **API 타입 작성**: TypeScript 기반 엄격한 타입 정의
-> 3. 🪝 **API 호출 훅 구성**: React Query를 활용한 효율적인 데이터 관리
-
-### 현재 구현
-이 데모에서는 인메모리 상태의 간단한 모의 API를 사용합니다. 하지만 수백 개의 API가 있는 프로덕션 규모에서는 다음을 권장합니다:
-
-### 1. API 문서화 워크플로우
-```typescript
-// 1. API 탐색 및 문서화 프로세스
-interface APIDiscoveryProcess {
-  swaggerDocs: string[]         // OpenAPI 명세서
-  postmanCollections: string[]  // 내보낸 Postman 컬렉션
-  internalDocs: string[]        // 내부 API 문서
-  confluenceDocs: string[]      // Confluence API 문서
-  slackChannels: string[]       // API 관련 Slack 채널
-}
-
-// 2. 자동화된 타입 생성
-// openapi-typescript, swagger-codegen 등의 도구 사용
-npm run generate-types        // OpenAPI 명세에서 타입 생성
-npm run validate-schemas      // 스키마 검증
-npm run update-docs          // 문서 자동 업데이트
-
-// 3. API 변경사항 추적
-interface APIChangeTracker {
-  version: string
-  changes: APIChange[]
-  deprecatedEndpoints: string[]
-  newEndpoints: string[]
-  breakingChanges: BreakingChange[]
-}
-```
-
-### 2. 타입 안전 API 클라이언트 구조
-```typescript
-// api/client/base.ts - 기본 클라이언트 구성
-interface APIClient {
-  baseURL: string
-  timeout: number
-  retries: number
-  headers: Record<string, string>
-  interceptors: {
-    request: RequestInterceptor[]
-    response: ResponseInterceptor[]
-  }
-}
-
-// api/client/endpoints.ts - 엔드포인트별 그룹화
-interface EndpointGroups {
-  auth: AuthAPI           // 인증 관련 API (20개)
-  user: UserAPI           // 사용자 관리 API (35개)
-  security: SecurityAPI   // 보안 정책 API (50개)
-  cloud: CloudConfigAPI   // 클라우드 구성 API (45개)
-  monitoring: MonitorAPI  // 모니터링 API (60개)
-  compliance: ComplianceAPI // 컴플라이언스 API (40개)
-  reports: ReportsAPI     // 리포트 API (55개)
-  integrations: IntegrationAPI // 연동 API (95개)
-}
-
-// api/endpoints/cloud-config.ts - 기능별 엔드포인트
-interface CloudConfigAPI {
-  // CRUD 기본 작업
-  list: (params?: ListParams) => Promise<PaginatedResponse<CloudConfig>>
-  get: (id: string) => Promise<CloudConfig>
-  create: (data: CreateCloudConfigRequest) => Promise<CloudConfig>
-  update: (id: string, data: UpdateCloudConfigRequest) => Promise<CloudConfig>
-  delete: (id: string) => Promise<void>
-
-  // 고급 작업
-  bulkCreate: (configs: CreateCloudConfigRequest[]) => Promise<CloudConfig[]>
-  bulkUpdate: (updates: BulkUpdateRequest) => Promise<CloudConfig[]>
-  validate: (config: CloudConfigRequest) => Promise<ValidationResult>
-  testConnection: (config: CloudConfigRequest) => Promise<ConnectionStatus>
-  export: (format: ExportFormat) => Promise<Blob>
-  import: (file: File) => Promise<ImportResult>
-}
-```
-
-### 3. React Query 통합 및 최적화
-```typescript
-// hooks/api/use-cloud-configs.ts - 상세한 훅 구현
-export function useCloudConfigs(params?: CloudConfigListParams) {
-  return useQuery({
-    queryKey: ['cloud-configs', params],
-    queryFn: () => cloudConfigAPI.list(params),
-    staleTime: 5 * 60 * 1000,     // 5분
-    gcTime: 10 * 60 * 1000,       // 10분 (이전 cacheTime)
-    refetchOnWindowFocus: false,
-    retry: (failureCount, error) => {
-      if (error.status === 404) return false
-      return failureCount < 3
-    },
-    placeholderData: keepPreviousData, // 페이지네이션 최적화
-  })
-}
-
-export function useCloudConfig(id: string) {
-  return useQuery({
-    queryKey: ['cloud-config', id],
-    queryFn: () => cloudConfigAPI.get(id),
-    enabled: !!id,
-    staleTime: 2 * 60 * 1000,     // 2분
-    select: (data) => {
-      // 데이터 변환 및 정규화
-      return {
-        ...data,
-        lastUpdated: new Date(data.updatedAt),
-        isActive: data.status === 'active'
-      }
-    }
-  })
-}
-
-export function useCreateCloudConfig() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: cloudConfigAPI.create,
-    onMutate: async (newConfig) => {
-      // 낙관적 업데이트
-      await queryClient.cancelQueries({ queryKey: ['cloud-configs'] })
-      const previousConfigs = queryClient.getQueryData(['cloud-configs'])
-
-      queryClient.setQueryData(['cloud-configs'], (old: any) => {
-        return {
-          ...old,
-          data: [...(old?.data || []), { ...newConfig, id: 'temp-id' }]
-        }
-      })
-
-      return { previousConfigs }
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData(['cloud-config', data.id], data)
-      queryClient.invalidateQueries({ queryKey: ['cloud-configs'] })
-      toast.success('구성이 성공적으로 생성되었습니다')
-    },
-    onError: (error, variables, context) => {
-      // 롤백
-      if (context?.previousConfigs) {
-        queryClient.setQueryData(['cloud-configs'], context.previousConfigs)
-      }
-      toast.error(`구성 생성 실패: ${error.message}`)
-    }
-  })
-}
-
-// hooks/api/use-bulk-operations.ts - 대량 작업 최적화
-export function useBulkCloudConfigOperations() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async (operations: BulkOperation[]) => {
-      // 배치 크기별로 분할 처리
-      const batchSize = 10
-      const batches = chunk(operations, batchSize)
-
-      const results = []
-      for (const batch of batches) {
-        const batchResults = await Promise.allSettled(
-          batch.map(op => {
-            switch (op.type) {
-              case 'create': return cloudConfigAPI.create(op.data)
-              case 'update': return cloudConfigAPI.update(op.id, op.data)
-              case 'delete': return cloudConfigAPI.delete(op.id)
-            }
-          })
-        )
-        results.push(...batchResults)
-
-        // 배치 간 지연 (rate limiting)
-        await new Promise(resolve => setTimeout(resolve, 100))
-      }
-
-      return results
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cloud-configs'] })
-      toast.success('대량 작업이 완료되었습니다')
-    }
-  })
-}
-```
-
-### 4. 캐시 관리 전략
-```typescript
-// utils/cache-keys.ts - 중앙화된 캐시 키 관리
-export const cacheKeys = {
-  // 클라우드 구성 관련
-  cloudConfigs: {
-    all: ['cloud-configs'] as const,
-    lists: () => [...cacheKeys.cloudConfigs.all, 'list'] as const,
-    list: (filters: ConfigFilters) =>
-      [...cacheKeys.cloudConfigs.lists(), { ...filters }] as const,
-    details: () => [...cacheKeys.cloudConfigs.all, 'detail'] as const,
-    detail: (id: string) =>
-      [...cacheKeys.cloudConfigs.details(), id] as const,
-    validation: (id: string) =>
-      [...cacheKeys.cloudConfigs.detail(id), 'validation'] as const,
-  },
-
-  // 사용자 관련
-  users: {
-    all: ['users'] as const,
-    lists: () => [...cacheKeys.users.all, 'list'] as const,
-    detail: (id: string) => [...cacheKeys.users.all, 'detail', id] as const,
-    permissions: (id: string) => [...cacheKeys.users.detail(id), 'permissions'] as const,
-  },
-
-  // 보안 정책 관련
-  security: {
-    all: ['security'] as const,
-    policies: () => [...cacheKeys.security.all, 'policies'] as const,
-    compliance: () => [...cacheKeys.security.all, 'compliance'] as const,
-    audits: () => [...cacheKeys.security.all, 'audits'] as const,
-  }
-}
-
-// utils/cache-management.ts - 캐시 무효화 패턴
-export class CacheManager {
-  constructor(private queryClient: QueryClient) {}
-
-  // 계층적 무효화
-  invalidateCloudConfigs(id?: string) {
-    if (id) {
-      this.queryClient.invalidateQueries({
-        queryKey: cacheKeys.cloudConfigs.detail(id)
-      })
-    } else {
-      this.queryClient.invalidateQueries({
-        queryKey: cacheKeys.cloudConfigs.all
-      })
-    }
-  }
-
-  // 선택적 데이터 업데이트
-  updateCloudConfig(id: string, updater: (old: CloudConfig) => CloudConfig) {
-    this.queryClient.setQueryData(
-      cacheKeys.cloudConfigs.detail(id),
-      updater
-    )
-
-    // 목록에서도 업데이트
-    this.queryClient.setQueriesData(
-      { queryKey: cacheKeys.cloudConfigs.lists() },
-      (old: any) => {
-        if (!old?.data) return old
-        return {
-          ...old,
-          data: old.data.map((item: CloudConfig) =>
-            item.id === id ? updater(item) : item
-          )
-        }
-      }
-    )
-  }
-
-  // 메모리 사용량 최적화
-  optimizeMemoryUsage() {
-    // 5분 이상 사용되지 않은 쿼리 제거
-    this.queryClient.getQueryCache().getAll()
-      .filter(query => {
-        const lastDataUpdateTime = query.state.dataUpdatedAt
-        return Date.now() - lastDataUpdateTime > 5 * 60 * 1000
-      })
-      .forEach(query => {
-        this.queryClient.removeQueries({ queryKey: query.queryKey })
-      })
-  }
-}
-```
-
-### 5. 오류 처리 및 재시도 로직
-```typescript
-// api/error-handling.ts - 포괄적인 오류 처리
-interface APIError {
-  code: string
-  message: string
-  details?: Record<string, any>
-  statusCode: number
-  timestamp: string
-  traceId: string
-}
-
-interface RetryConfig {
-  attempts: number
-  delay: (attemptIndex: number) => number
-  retryCondition: (error: APIError) => boolean
-  onRetry?: (error: APIError, attemptIndex: number) => void
-}
-
-const retryConfig: RetryConfig = {
-  attempts: 3,
-  delay: (attemptIndex: number) => {
-    // 지수 백오프 with jitter
-    const baseDelay = 1000 * Math.pow(2, attemptIndex)
-    const jitter = Math.random() * 200
-    return Math.min(baseDelay + jitter, 30000)
-  },
-  retryCondition: (error: APIError) => {
-    // 재시도 가능한 오류 정의
-    const retryableErrors = [
-      'NETWORK_ERROR',
-      'TIMEOUT',
-      'RATE_LIMIT_EXCEEDED',
-      'SERVER_ERROR'
-    ]
-
-    const retryableStatusCodes = [408, 429, 500, 502, 503, 504]
-
-    return retryableErrors.includes(error.code) ||
-           retryableStatusCodes.includes(error.statusCode)
-  },
-  onRetry: (error, attemptIndex) => {
-    console.warn(`API 재시도 ${attemptIndex + 1}/3:`, error.message)
-
-    // 모니터링 시스템에 재시도 로그 전송
-    analytics.track('api_retry', {
-      error_code: error.code,
-      attempt: attemptIndex + 1,
-      trace_id: error.traceId
-    })
-  }
-}
-
-// api/interceptors.ts - 요청/응답 인터셉터
-export class APIInterceptors {
-  static setupRequestInterceptor(client: AxiosInstance) {
-    client.interceptors.request.use(
-      (config) => {
-        // 요청 ID 추가 (추적용)
-        config.headers['X-Request-ID'] = generateRequestId()
-
-        // 인증 토큰 자동 추가
-        const token = getAuthToken()
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`
-        }
-
-        // 요청 로깅
-        console.log(`[API 요청] ${config.method?.toUpperCase()} ${config.url}`)
-
-        return config
-      },
-      (error) => Promise.reject(error)
-    )
-  }
-
-  static setupResponseInterceptor(client: AxiosInstance) {
-    client.interceptors.response.use(
-      (response) => {
-        // 응답 로깅
-        console.log(`[API 응답] ${response.status} ${response.config.url}`)
-
-        // 성능 메트릭 수집
-        const requestTime = response.config.metadata?.startTime
-        if (requestTime) {
-          const duration = Date.now() - requestTime
-          analytics.track('api_performance', {
-            endpoint: response.config.url,
-            duration,
-            status: response.status
-          })
-        }
-
-        return response
-      },
-      async (error) => {
-        // 토큰 만료 시 자동 갱신
-        if (error.response?.status === 401) {
-          try {
-            await refreshAuthToken()
-            return client.request(error.config)
-          } catch (refreshError) {
-            // 로그아웃 처리
-            redirectToLogin()
-            return Promise.reject(refreshError)
-          }
-        }
-
-        // 오류 정규화
-        const normalizedError: APIError = {
-          code: error.response?.data?.code || 'UNKNOWN_ERROR',
-          message: error.response?.data?.message || error.message,
-          details: error.response?.data?.details,
-          statusCode: error.response?.status || 0,
-          timestamp: new Date().toISOString(),
-          traceId: error.response?.headers['x-trace-id'] || 'unknown'
-        }
-
-        // 오류 모니터링
-        analytics.track('api_error', normalizedError)
-
-        return Promise.reject(normalizedError)
-      }
-    )
-  }
-}
-```
-
-### 6. API 호출 훅 구성 전략
-```typescript
-// hooks/factories/api-hook-factory.ts - 훅 팩토리 패턴
-export function createAPIHooks<T, CreateT, UpdateT>({
-  baseKey,
-  api,
-  defaultStaleTime = 5 * 60 * 1000
-}: {
-  baseKey: string
-  api: CRUDApi<T, CreateT, UpdateT>
-  defaultStaleTime?: number
-}) {
-  // 목록 조회 훅
-  const useList = (params?: any) => {
-    return useQuery({
-      queryKey: [baseKey, 'list', params],
-      queryFn: () => api.list(params),
-      staleTime: defaultStaleTime,
-      placeholderData: keepPreviousData
-    })
-  }
-
-  // 단일 조회 훅
-  const useDetail = (id: string) => {
-    return useQuery({
-      queryKey: [baseKey, 'detail', id],
-      queryFn: () => api.get(id),
-      enabled: !!id,
-      staleTime: defaultStaleTime
-    })
-  }
-
-  // 생성 훅
-  const useCreate = () => {
-    const queryClient = useQueryClient()
-    return useMutation({
-      mutationFn: api.create,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [baseKey] })
-      }
-    })
-  }
-
-  // 업데이트 훅
-  const useUpdate = () => {
-    const queryClient = useQueryClient()
-    return useMutation({
-      mutationFn: ({ id, data }: { id: string; data: UpdateT }) => api.update(id, data),
-      onSuccess: (data, { id }) => {
-        queryClient.setQueryData([baseKey, 'detail', id], data)
-        queryClient.invalidateQueries({ queryKey: [baseKey, 'list'] })
-      }
-    })
-  }
-
-  // 삭제 훅
-  const useDelete = () => {
-    const queryClient = useQueryClient()
-    return useMutation({
-      mutationFn: api.delete,
-      onSuccess: (_, id) => {
-        queryClient.removeQueries({ queryKey: [baseKey, 'detail', id] })
-        queryClient.invalidateQueries({ queryKey: [baseKey, 'list'] })
-      }
-    })
-  }
-
-  return {
-    useList,
-    useDetail,
-    useCreate,
-    useUpdate,
-    useDelete
-  }
-}
-
-// 사용 예시
-const cloudConfigHooks = createAPIHooks({
-  baseKey: 'cloud-configs',
-  api: cloudConfigAPI,
-  defaultStaleTime: 3 * 60 * 1000 // 3분
-})
-
-export const {
-  useList: useCloudConfigs,
-  useDetail: useCloudConfig,
-  useCreate: useCreateCloudConfig,
-  useUpdate: useUpdateCloudConfig,
-  useDelete: useDeleteCloudConfig
-} = cloudConfigHooks
-```
-
-### 7. 성능 모니터링 및 최적화
-```typescript
-// utils/performance-monitor.ts - API 성능 모니터링
-class APIPerformanceMonitor {
-  private metrics: Map<string, PerformanceMetric[]> = new Map()
-
-  recordAPICall(endpoint: string, duration: number, status: number) {
-    const metric: PerformanceMetric = {
-      endpoint,
-      duration,
-      status,
-      timestamp: Date.now()
-    }
-
-    if (!this.metrics.has(endpoint)) {
-      this.metrics.set(endpoint, [])
-    }
-
-    const endpointMetrics = this.metrics.get(endpoint)!
-    endpointMetrics.push(metric)
-
-    // 최근 100개 레코드만 유지
-    if (endpointMetrics.length > 100) {
-      endpointMetrics.shift()
-    }
-
-    // 성능 경고 처리
-    this.checkPerformanceThresholds(endpoint, metric)
-  }
-
-  private checkPerformanceThresholds(endpoint: string, metric: PerformanceMetric) {
-    const thresholds = {
-      slow: 2000,      // 2초 이상
-      verySlow: 5000   // 5초 이상
-    }
-
-    if (metric.duration > thresholds.verySlow) {
-      console.error(`매우 느린 API 호출: ${endpoint} (${metric.duration}ms)`)
-      // 슬랙 알림 또는 모니터링 시스템에 전송
-    } else if (metric.duration > thresholds.slow) {
-      console.warn(`느린 API 호출: ${endpoint} (${metric.duration}ms)`)
-    }
-  }
-
-  getAverageResponseTime(endpoint: string): number {
-    const metrics = this.metrics.get(endpoint) || []
-    if (metrics.length === 0) return 0
-
-    const sum = metrics.reduce((acc, metric) => acc + metric.duration, 0)
-    return sum / metrics.length
-  }
-
-  getSlowEndpoints(threshold: number = 1000): string[] {
-    return Array.from(this.metrics.keys())
-      .filter(endpoint => this.getAverageResponseTime(endpoint) > threshold)
-      .sort((a, b) => this.getAverageResponseTime(b) - this.getAverageResponseTime(a))
-  }
-}
-
-// 전역 인스턴스
-export const performanceMonitor = new APIPerformanceMonitor()
-```
-
-### 8. 실무 배포 및 운영 고려사항
-```typescript
-// config/api-environments.ts - 환경별 API 구성
-interface EnvironmentConfig {
-  baseURL: string
-  timeout: number
-  rateLimit: {
-    requests: number
-    window: number // ms
-  }
-  retries: number
-  monitoring: {
-    enabled: boolean
-    sampleRate: number
-  }
-}
-
-const environmentConfigs: Record<string, EnvironmentConfig> = {
-  development: {
-    baseURL: 'http://localhost:3001/api',
-    timeout: 10000,
-    rateLimit: { requests: 100, window: 60000 },
-    retries: 1,
-    monitoring: { enabled: true, sampleRate: 1.0 }
-  },
-  staging: {
-    baseURL: 'https://api-staging.tatumSecurity.com',
-    timeout: 8000,
-    rateLimit: { requests: 200, window: 60000 },
-    retries: 2,
-    monitoring: { enabled: true, sampleRate: 0.1 }
-  },
-  production: {
-    baseURL: 'https://api.tatumSecurity.com',
-    timeout: 5000,
-    rateLimit: { requests: 1000, window: 60000 },
-    retries: 3,
-    monitoring: { enabled: true, sampleRate: 0.01 }
-  }
-}
-
-// utils/api-rate-limiter.ts - Rate Limiting 구현
-class APIRateLimiter {
-  private requests: Map<string, number[]> = new Map()
-
-  canMakeRequest(endpoint: string, limit: number, window: number): boolean {
-    const now = Date.now()
-    const endpointRequests = this.requests.get(endpoint) || []
-
-    // window 밖의 오래된 요청 제거
-    const validRequests = endpointRequests.filter(time => now - time < window)
-
-    if (validRequests.length >= limit) {
-      return false
-    }
-
-    validRequests.push(now)
-    this.requests.set(endpoint, validRequests)
-    return true
-  }
-
-  getRemainingRequests(endpoint: string, limit: number, window: number): number {
-    const now = Date.now()
-    const endpointRequests = this.requests.get(endpoint) || []
-    const validRequests = endpointRequests.filter(time => now - time < window)
-    return Math.max(0, limit - validRequests.length)
-  }
-}
-```
-
-## 📄 API 문서 확인 및 유지보수 전략
-
-### 1. API 문서 자동화 시스템
-```typescript
-// scripts/generate-api-docs.ts - API 문서 자동 생성
-import { generateAPIDocumentation } from './docs-generator'
-
-interface APIDocumentationConfig {
-  openApiSpecs: string[]     // OpenAPI 명세서 경로
-  outputDir: string          // 문서 출력 디렉토리
-  templates: {
-    readme: string           // README 템플릿
-    hooks: string            // 훅 사용법 템플릿
-    examples: string         // 예제 코드 템플릿
-  }
-  languages: string[]        // 지원 언어 (한국어, 영어)
-}
-
-// 자동 문서 생성 스크립트
-async function generateDocs() {
-  const config: APIDocumentationConfig = {
-    openApiSpecs: ['./specs/auth.yaml', './specs/cloud-config.yaml'],
-    outputDir: './docs/api',
-    templates: {
-      readme: './templates/api-readme.md',
-      hooks: './templates/react-hooks.md',
-      examples: './templates/examples.md'
-    },
-    languages: ['ko', 'en']
-  }
-
-  // 1. OpenAPI 명세에서 타입 생성
-  await generateTypes(config.openApiSpecs)
-
-  // 2. React Query 훅 자동 생성
-  await generateReactQueryHooks(config.openApiSpecs)
-
-  // 3. 문서 생성
-  await generateAPIDocumentation(config)
-
-  // 4. 예제 코드 생성
-  await generateExampleCode(config)
-
-  console.log('📚 API 문서가 성공적으로 생성되었습니다!')
-}
-```
-
-### 2. API 타입 작성 자동화
 ```bash
-# package.json 스크립트
-{
-  "scripts": {
-    "api:generate-types": "openapi-typescript ./specs/*.yaml -o ./types/api.ts",
-    "api:generate-hooks": "node scripts/generate-hooks.js",
-    "api:validate-schemas": "swagger-codegen validate -i ./specs/*.yaml",
-    "api:docs": "redoc-cli build ./specs/combined.yaml --output docs/api.html",
-    "api:test": "jest api-tests/",
-    "api:mock": "prism mock ./specs/combined.yaml",
-    "api:all": "npm run api:generate-types && npm run api:generate-hooks && npm run api:docs"
-  }
-}
+# 개발
+npm run dev          # Turbopack으로 개발 서버 시작
 
-# CI/CD 파이프라인에서 자동 실행
-# .github/workflows/api-updates.yml
-name: API Documentation Update
-on:
-  push:
-    paths:
-      - 'specs/**'
-  schedule:
-    - cron: '0 2 * * *'  # 매일 오전 2시
+# 프로덕션
+npm run build        # Turbopack으로 프로덕션 빌드
+npm run start        # 프로덕션 서버 시작
 
-jobs:
-  update-api-docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install dependencies
-        run: npm ci
-      - name: Generate API documentation
-        run: npm run api:all
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          title: 'docs: API 문서 자동 업데이트'
-          body: 'OpenAPI 명세에서 자동 생성된 API 문서 업데이트'
+# 코드 품질
+npm run lint         # ESLint 실행
 ```
 
-### 3. API 리뷰 및 테스트 전략
+### 환경 설정
+
+현재 애플리케이션은 모의 데이터를 사용합니다. 개발에 필요한 환경 변수는 없습니다.
+
+## 📊 데이터 모델
+
+### CloudConfig 인터페이스
 ```typescript
-// tests/api-contract.test.ts - API 계약 테스트
-import { CloudConfigAPI } from '../types/api'
-import { validateAPIResponse } from '../utils/api-validation'
-
-describe('Cloud Config API Contract Tests', () => {
-  const api = new CloudConfigAPI()
-
-  test('GET /cloud-configs 응답 스키마 검증', async () => {
-    const response = await api.list()
-
-    expect(response).toMatchObject({
-      data: expect.arrayContaining([
-        expect.objectContaining({
-          id: expect.any(String),
-          name: expect.any(String),
-          provider: expect.stringMatching(/^(aws|azure|gcp)$/),
-          createdAt: expect.any(String),
-          updatedAt: expect.any(String)
-        })
-      ]),
-      pagination: expect.objectContaining({
-        page: expect.any(Number),
-        limit: expect.any(Number),
-        total: expect.any(Number)
-      })
-    })
-  })
-
-  test('POST /cloud-configs 입력 검증', async () => {
-    const validInput = {
-      name: 'Test Config',
-      provider: 'aws' as const,
-      credentials: {
-        accessKey: 'test-key',
-        secretKey: 'test-secret'
-      }
-    }
-
-    const response = await api.create(validInput)
-    expect(response.id).toBeDefined()
-    expect(response.name).toBe(validInput.name)
-  })
-
-  test('API 오류 처리 검증', async () => {
-    const invalidInput = {
-      name: '', // 빈 이름
-      provider: 'invalid' as any
-    }
-
-    await expect(api.create(invalidInput)).rejects.toMatchObject({
-      code: 'VALIDATION_ERROR',
-      statusCode: 400,
-      details: expect.objectContaining({
-        fields: expect.arrayContaining(['name', 'provider'])
-      })
-    })
-  })
-})
-
-// tests/performance.test.ts - 성능 테스트
-describe('API Performance Tests', () => {
-  test('목록 조회 API 1초 이내 응답', async () => {
-    const startTime = Date.now()
-    await api.list({ limit: 50 })
-    const duration = Date.now() - startTime
-
-    expect(duration).toBeLessThan(1000)
-  })
-
-  test('대량 데이터 페이지네이션 성능', async () => {
-    const responses = await Promise.all([
-      api.list({ page: 1, limit: 100 }),
-      api.list({ page: 2, limit: 100 }),
-      api.list({ page: 3, limit: 100 })
-    ])
-
-    responses.forEach(response => {
-      expect(response.data.length).toBeLessThanOrEqual(100)
-      expect(response.pagination).toBeDefined()
-    })
-  })
-})
-```
-
-### 4. API 리팩토링 및 버전 관리
-```typescript
-// utils/api-migration.ts - API 버전 마이그레이션
-interface APIMigration {
-  version: string
-  description: string
-  migrate: (oldData: any) => any
-  rollback?: (newData: any) => any
-}
-
-const migrations: APIMigration[] = [
-  {
-    version: '2.0.0',
-    description: 'CloudConfig API 스키마 변경',
-    migrate: (oldConfig) => ({
-      ...oldConfig,
-      // v1의 `type` 필드를 v2의 `provider`로 변경
-      provider: oldConfig.type,
-      // v1의 `settings` 필드를 v2의 `credentials`로 변경
-      credentials: oldConfig.settings,
-      // v2에서 새로 추가된 필드
-      version: '2.0.0',
-      createdAt: oldConfig.created || new Date().toISOString()
-    }),
-    rollback: (newConfig) => ({
-      ...newConfig,
-      type: newConfig.provider,
-      settings: newConfig.credentials,
-      created: newConfig.createdAt
-    })
-  }
-]
-
-// API 버전 화획성 검사
-export function checkAPICompatibility(clientVersion: string, serverVersion: string): boolean {
-  const [clientMajor] = clientVersion.split('.').map(Number)
-  const [serverMajor] = serverVersion.split('.').map(Number)
-
-  // Major 버전이 다르면 비호환
-  return clientMajor === serverMajor
-}
-
-// 자동 데이터 변환
-export function migrateAPIData(data: any, fromVersion: string, toVersion: string): any {
-  const applicableMigrations = migrations.filter(m => {
-    const migrationVersion = m.version
-    return semverGt(migrationVersion, fromVersion) && semverLte(migrationVersion, toVersion)
-  })
-
-  return applicableMigrations.reduce((acc, migration) => {
-    console.log(`API 데이터 마이그레이션: ${migration.version} - ${migration.description}`)
-    return migration.migrate(acc)
-  }, data)
+interface CloudConfig {
+  id: string
+  name: string
+  provider: "aws" | "azure" | "gcp"
+  cloudGroupName?: string[]
+  eventProcessEnabled: boolean
+  userActivityEnabled: boolean
+  scheduleScanEnabled: boolean
+  scheduleScanSetting?: ScheduleScanSetting
+  regionList: string[]
+  proxyUrl?: string
+  credentials: AWSCredential | AzureCredential | GCPCredential
+  credentialType: string
+  eventSource?: string[]
+  isActive?: boolean
+  description?: string
+  updatedAt?: string
+  createdAt?: string
 }
 ```
 
-## 🎯 UX 디자인 철학
+### 프로바이더별 타입
+- **AWS**: Access Key ID, Secret Access Key, Role ARN
+- **Azure**: Tenant ID, Subscription ID, Application ID, Secret Key
+- **GCP**: Project ID, Service Account JSON
 
-### 마이크로 인터렉션
-- **점진적 향상**: JavaScript 없이도 작동하도록 기본 기능 제공
-- **즉시 피드백**: 로딩 상태 및 낙관적 업데이트
-- **오류 복구**: 명확한 오류 메시지와 권장 조치
-- **접근성**: ARIA 레이블, 키보드 내비게이션, 스크린 리더 지원
+## 🎯 주요 컴포넌트
 
-### 폼 디자인 원칙
-- **스마트 기본값**: 글로벌 리전 자동 포함
-- **상황별 도움말**: 필드 설명 및 검증 메시지
-- **프로바이더 적응**: 클라우드 프로바이더 선택에 따른 필드 변경
-- **데이터 지속성**: 프로바이더 전환 시 폼 상태 유지
+### CloudTable
+다음 기능을 가진 고급 데이터 테이블:
+- **고정 레이아웃**: Name 컬럼은 왼쪽 고정, Edit/Delete는 오른쪽 고정
+- **가로 스크롤**: 반응형 디자인을 위함
+- **동적 그림자**: 스크롤 중 시각적 피드백
+- **페이지네이션**: 페이지당 50개 항목
+- **프로바이더 아이콘**: 시각적 클라우드 프로바이더 식별
+- **상태 표시기**: 사용자 액션 (ON/OFF), 스캔 스케줄 (설정됨/설정 안됨)
 
-## 📝 QA 및 테스트 전략
+### CloudDialog
+구성 관리를 위한 모달 폼:
+- **생성/편집 모드**: 두 작업 모두를 위한 단일 컴포넌트
+- **폼 검증**: Zod 스키마 검증
+- **프로바이더별 필드**: 프로바이더에 따른 동적 폼 필드
+- **다중 선택**: 클라우드 그룹 및 리전용
 
-### 수동 테스트 체크리스트
-- [ ] 모든 필수 필드를 포함한 새 AWS 구성 생성
-- [ ] 기존 구성 편집 및 데이터 지속성 확인
-- [ ] 프로바이더 전환 테스트 (AWS → Azure → GCP)
-- [ ] 리전 요구사항 확인 (글로벌 리전 필수 포함)
-- [ ] 다중 선택 상호작용 테스트 (클라우드 그룹, 리전, 이벤트 소스)
-- [ ] 폼 오류 및 성공 메시지 검증
-- [ ] 모바일 디바이스에서 반응형 디자인 테스트
-- [ ] API 호출 중 로딩 상태 확인
+### CloudProviderLogo
+다음과 같은 아이콘 컴포넌트:
+- **AWS**: Database 아이콘 (오렌지 테마)
+- **Azure**: Cloud 아이콘 (파란색 테마)  
+- **GCP**: CPU 아이콘 (녹색 테마)
+- **반응형**: 데스크톱에서는 아이콘 + 이름, 모바일에서는 아이콘만
 
-### 자동화된 테스트 접근법
+## 🔄 API 레이어
+
+### 모의 API 함수
 ```typescript
-// tests/cloud-dialog.test.tsx
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { CloudDialog } from '@/components/cloud-dialog'
+// 모든 구성 가져오기
+cloudApi.getCloudConfigs(): Promise<CloudConfig[]>
 
-describe('CloudDialog', () => {
-  test('새 구성을 생성해야 함', async () => {
-    render(<CloudDialog open={true} onOpenChange={jest.fn()} />)
+// 단일 구성 가져오기
+cloudApi.getCloudConfig(id: string): Promise<CloudConfig | null>
 
-    fireEvent.change(screen.getByLabelText('구성 이름'), {
-      target: { value: '테스트 구성' }
-    })
+// 새 구성 생성
+cloudApi.createCloudConfig(data: CloudConfigFormData): Promise<CloudConfig>
 
-    fireEvent.click(screen.getByRole('button', { name: '구성 생성' }))
+// 기존 구성 업데이트
+cloudApi.updateCloudConfig(id: string, data: CloudConfigFormData): Promise<CloudConfig>
 
-    await waitFor(() => {
-      expect(mockCreateAPI).toHaveBeenCalledWith({
-        name: '테스트 구성',
-        // ... 기타 예상 필드
-      })
-    })
-  })
+// 구성 삭제
+cloudApi.deleteCloudConfig(id: string): Promise<void>
+```
+
+### 데이터 플로우
+1. **로딩**: 로딩 스피너 표시
+2. **가져오기**: API에서 데이터 검색
+3. **표시**: 테이블 형식으로 렌더링
+4. **상호작용**: 모달을 통한 편집/삭제
+5. **업데이트**: 작업 후 데이터 새로고침
+
+## 🎨 스타일링 가이드라인
+
+### 색상 사용
+- **주요 액션**: 브랜드 컬러 배경
+- **보조 액션**: 브랜드 컬러 호버가 있는 아웃라인
+- **상태 표시기**: 의미론적 색상 (녹색/빨간색/회색)
+- **상호작용 요소**: 브랜드 컬러 호버 효과
+
+### 타이포그래피
+- **헤더**: Font weight 600-700
+- **본문 텍스트**: 기본 font weight
+- **설명**: 흐린 텍스트 색상
+- **라벨**: 중간 font weight
+
+### 간격
+- **컴포넌트 간격**: 4-6 단위 (1rem-1.5rem)
+- **폼 필드**: 4 단위 (1rem)
+- **버튼**: 2-3 단위 패딩
+- **카드**: 6 단위 패딩
+
+## 🔒 타입 안전성
+
+### 폼 검증
+```typescript
+export const CloudConfigSchema = z.object({
+  name: z.string().min(1, "이름은 필수입니다"),
+  provider: z.enum(["aws", "azure", "gcp"]),
+  cloudGroupName: z.array(z.enum(CLOUD_GROUP_NAMES)).min(1),
+  regionList: z.array(z.string()).min(1).refine(
+    (regions) => regions.includes("global"),
+    "글로벌 리전이 포함되어야 합니다"
+  ),
+  // ... 더 많은 검증 규칙
 })
 ```
 
-## 🚀 향후 개선 사항
+### 타입 정의
+- **엄격한 TypeScript**: 모든 props와 함수가 타입화됨
+- **유니온 타입**: 프로바이더별 타입
+- **제네릭 컴포넌트**: 적절한 타이핑으로 재사용 가능
+- **API 응답**: 완전히 타입화된 모의 응답
 
-1. **다중 프로바이더 지원**: Azure 및 GCP 구현 완료
-2. **대량 작업**: 구성 가져오기/내보내기, 일괄 업데이트
-3. **고도 검증**: 실시간 자격 증명 유효성 검사
-4. **감사 추적**: 구성 변경 및 사용자 행동 추적
-5. **역할 기반 접근 제어**: 사용자 권한 및 승인 워크플로우
-6. **구성 템플릿**: 일반적인 사용 사례를 위한 미리 정의된 설정
+## 🎯 테이블 기능
 
-## 📄 라이센스
+### 고급 테이블 레이아웃
+- **고정 Name 컬럼**: 스티키 포지셔닝으로 왼쪽에 항상 표시
+- **고정 액션 컬럼**: Edit과 Delete가 오른쪽에 항상 표시
+- **가로 스크롤**: 중간 컬럼의 부드러운 스크롤
+- **동적 그림자**: 스크롤 시 고정 컬럼을 나타내는 그림자 효과
 
-MIT 라이센스 - 자세한 내용은 LICENSE 파일을 참조하세요.
+### 컬럼 구조
+1. **Name** (왼쪽 고정): 구성 이름 및 설명
+2. **Provider**: 클라우드 프로바이더 로고 (AWS/Azure/GCP)
+3. **Status**: 활성/비활성 배지
+4. **Cloud Groups**: 브랜드 컬러 배지
+5. **Regions**: 브랜드 컬러 리전 배지
+6. **Event Sources**: 이벤트 소스 표시기
+7. **Updated**: 마지막 업데이트 타임스탬프
+8. **User Action** (항상 표시): ON/OFF 토글 표시기
+9. **Scan Schedule** (항상 표시): 설정됨/설정 안됨 상태
+10. **Edit** (오른쪽 고정): 브랜드 컬러 편집 버튼
+11. **Delete** (오른쪽 고정): 빨간색 삭제 버튼
+
+### 반응형 동작
+- **데스크톱**: 가로 스크롤로 모든 컬럼 표시
+- **모바일**: 고정 컬럼 우선, 중간 컬럼은 스크롤 가능
+- **터치**: 부드러운 터치 스크롤 지원
+
+## 🧪 테스트 고려사항
+
+### 컴포넌트 테스트
+- 폼 검증 시나리오
+- 테이블 상호작용 테스트
+- 모달 열기/닫기 동작
+- API 오류 처리
+
+### 접근성 테스트
+- 키보드 내비게이션
+- 스크린 리더 호환성
+- 색상 대비 준수
+- 포커스 관리
+
+## 🚀 배포
+
+### 빌드 프로세스
+```bash
+# 프로덕션 빌드 생성
+npm run build
+
+# 프로덕션 서버 시작
+npm start
+```
+
+### 성능 최적화
+- **Turbopack**: 빠른 개발 및 빌드
+- **코드 분할**: Next.js 자동 기능
+- **이미지 최적화**: Next.js 내장 기능
+- **번들 분석**: Next.js를 통해 사용 가능
+
+## 🔮 향후 개선사항
+
+### 계획된 기능
+- **실제 API 통합**: 모의 데이터 교체
+- **고급 필터링**: 검색 및 필터 기능
+- **대량 작업**: 다중 선택 액션
+- **내보내기 기능**: CSV/JSON 내보내기
+- **다크 모드**: 테마 전환
+
+### 기술적 개선사항
+- **캐싱**: API 응답 캐싱
+- **가상화**: 대용량 데이터셋용
+- **오류 경계**: 더 나은 오류 처리
+- **테스트**: 단위 및 통합 테스트
+
+## 📝 기여하기
+
+### 개발 워크플로우
+1. 저장소 포크
+2. 기능 브랜치 생성
+3. TypeScript 및 ESLint 규칙 준수
+4. 철저한 테스트
+5. Pull request 제출
+
+### 코드 표준
+- **TypeScript**: Strict mode 활성화
+- **ESLint**: 구성된 규칙 준수
+- **Prettier**: 일관된 포맷팅
+- **커밋 메시지**: 기존 형식 준수
 
 ---
 
-Next.js, TypeScript, shadcn/ui로 ❤️를 담아 제작되었습니다
+# 🌐 국제화(i18n) 구현 전략 - 글로벌 서비스를 위한 효율적 다국어 지원
+
+> **테이텀 시큐리티 i18n 관리 체계 - React 기반 다국어 지원의 체계적 접근법**
+
+## 📋 목차
+
+1. [개요](#개요-1)
+2. [i18n 아키텍처 설계](#i18n-아키텍처-설계)
+3. [번역 파일 관리](#번역-파일-관리)
+4. [React 컴포넌트 i18n 적용](#react-컴포넌트-i18n-적용)
+5. [번역 자동화 워크플로우](#번역-자동화-워크플로우)
+6. [TypeScript 타입 안전성](#typescript-타입-안전성)
+7. [성능 최적화](#성능-최적화-1)
+8. [번역 품질 관리](#번역-품질-관리)
+9. [개발자 도구 및 워크플로우](#개발자-도구-및-워크플로우)
+10. [실제 구현 예시](#실제-구현-예시-1)
+
+---
+
+## 🎯 개요
+
+테이텀 시큐리티는 글로벌 서비스 제공을 위해 체계적인 국제화(i18n) 전략을 구현합니다. 본 가이드는 **효율적인 번역 관리**, **개발자 친화적인 워크플로우**, **자동화된 번역 프로세스**를 제공하는 실무 중심의 종합 솔루션입니다.
+
+### 핵심 목표
+
+- **개발 효율성**: 번역 키 자동 생성 및 타입 안전성 보장
+- **번역 품질**: 컨텍스트 기반 번역 및 일관성 유지
+- **유지보수성**: 구조화된 번역 파일 및 자동화된 워크플로우
+- **성능**: 지연 로딩 및 캐싱을 통한 최적화
+- **확장성**: 새로운 언어 추가의 용이성
+
+### 현재 문제점 분석
+
+1. **JSON 관리의 복잡성**: 대량의 번역 키 관리 어려움
+2. **번역 작업 비효율성**: 수동 번역 프로세스로 인한 지연
+3. **코드 작성 복잡도**: 번역 키 사용의 불편함
+4. **일관성 부족**: 번역 품질 및 용어 통일성 문제
+
+---
+
+## 🏗️ i18n 아키텍처 설계
+
+### 전체 구조도
+
+```
+src/
+├── i18n/                          # 국제화 관리 계층
+│   ├── config/                    # i18n 설정
+│   │   ├── index.ts              # 메인 설정
+│   │   ├── languages.ts          # 지원 언어 목록
+│   │   └── namespaces.ts         # 네임스페이스 정의
+│   ├── locales/                  # 번역 파일
+│   │   ├── ko/                   # 한국어
+│   │   │   ├── common.json       # 공통 번역
+│   │   │   ├── cloud.json        # 클라우드 관련
+│   │   │   ├── security.json     # 보안 관련
+│   │   │   ├── users.json        # 사용자 관리
+│   │   │   └── index.ts          # 언어별 통합
+│   │   ├── en/                   # 영어
+│   │   ├── ja/                   # 일본어
+│   │   └── zh/                   # 중국어
+│   ├── hooks/                    # i18n 훅
+│   │   ├── useTranslation.ts     # 번역 훅
+│   │   ├── useLanguage.ts        # 언어 설정 훅
+│   │   └── useFormatting.ts      # 포맷팅 훅
+│   ├── components/               # i18n 컴포넌트
+│   │   ├── LanguageProvider.tsx  # Context Provider
+│   │   ├── LanguageSelector.tsx  # 언어 선택기
+│   │   └── TranslatedText.tsx    # 번역 텍스트 컴포넌트
+│   ├── utils/                    # 유틸리티
+│   │   ├── translator.ts         # 번역 엔진
+│   │   ├── formatter.ts          # 날짜/숫자 포맷팅
+│   │   ├── validator.ts          # 번역 검증
+│   │   └── loader.ts             # 동적 로딩
+│   └── types/                    # 타입 정의
+│       ├── i18n.types.ts         # i18n 타입
+│       └── translations.types.ts # 번역 타입
+├── components/                   # UI 컴포넌트
+├── utils/                       # 유틸리티
+└── types/                       # 글로벌 타입
+```
+
+### 설정 파일 구조
+
+```typescript
+// src/i18n/config/index.ts
+import { Language } from '@/i18n/types/i18n.types'
+
+export const I18N_CONFIG = {
+  // 기본 언어
+  defaultLanguage: 'ko' as Language,
+  
+  // 지원 언어 목록
+  supportedLanguages: ['ko', 'en', 'ja', 'zh'] as Language[],
+  
+  // 폴백 언어
+  fallbackLanguage: 'en' as Language,
+  
+  // 네임스페이스 정의
+  namespaces: [
+    'common',
+    'cloud',
+    'security', 
+    'users',
+    'dashboard',
+    'settings',
+    'errors'
+  ],
+  
+  // 로딩 전략
+  loadingStrategy: 'lazy' as 'eager' | 'lazy',
+  
+  // 캐시 설정
+  cache: {
+    enabled: true,
+    ttl: 1000 * 60 * 60, // 1시간
+    storage: 'localStorage' as 'localStorage' | 'sessionStorage' | 'memory'
+  },
+  
+  // 자동 감지 설정
+  detection: {
+    enabled: true,
+    order: ['localStorage', 'navigator', 'cookie'],
+    caches: ['localStorage']
+  },
+  
+  // 번역 품질 설정
+  quality: {
+    strictMode: true,
+    reportMissingKeys: process.env.NODE_ENV === 'development',
+    interpolation: {
+      escapeValue: false,
+      format: (value: any, format?: string) => {
+        if (format === 'uppercase') return value.toUpperCase()
+        if (format === 'lowercase') return value.toLowerCase()
+        return value
+      }
+    }
+  }
+} as const
+
+// 타입 추출
+export type I18nConfig = typeof I18N_CONFIG
+export type SupportedLanguage = typeof I18N_CONFIG.supportedLanguages[number]
+export type Namespace = typeof I18N_CONFIG.namespaces[number]
+```
+
+---
+
+## 📁 번역 파일 관리
+
+### 1. 구조화된 번역 스키마
+
+```json
+// src/i18n/locales/ko/common.json
+{
+  "actions": {
+    "create": "생성",
+    "edit": "수정", 
+    "delete": "삭제",
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인",
+    "search": "검색",
+    "filter": "필터",
+    "export": "내보내기",
+    "import": "가져오기"
+  },
+  "status": {
+    "active": "활성",
+    "inactive": "비활성",
+    "pending": "대기중",
+    "completed": "완료",
+    "failed": "실패",
+    "loading": "로딩중"
+  },
+  "messages": {
+    "success": {
+      "created": "{{item}}이(가) 성공적으로 생성되었습니다.",
+      "updated": "{{item}}이(가) 성공적으로 수정되었습니다.", 
+      "deleted": "{{item}}이(가) 성공적으로 삭제되었습니다."
+    },
+    "error": {
+      "general": "예상치 못한 오류가 발생했습니다.",
+      "network": "네트워크 연결을 확인해주세요.",
+      "permission": "권한이 없습니다.",
+      "notFound": "{{item}}을(를) 찾을 수 없습니다."
+    },
+    "validation": {
+      "required": "{{field}}은(는) 필수 항목입니다.",
+      "minLength": "{{field}}은(는) 최소 {{min}}글자 이상이어야 합니다.",
+      "maxLength": "{{field}}은(는) 최대 {{max}}글자까지 입력 가능합니다.",
+      "email": "올바른 이메일 형식을 입력해주세요.",
+      "url": "올바른 URL 형식을 입력해주세요."
+    }
+  },
+  "navigation": {
+    "dashboard": "대시보드",
+    "clouds": "클라우드 설정",
+    "security": "보안 관리", 
+    "users": "사용자 관리",
+    "settings": "설정"
+  },
+  "time": {
+    "now": "방금 전",
+    "minutes": "{{count}}분 전",
+    "hours": "{{count}}시간 전", 
+    "days": "{{count}}일 전",
+    "weeks": "{{count}}주 전",
+    "months": "{{count}}개월 전"
+  },
+  "pagination": {
+    "showing": "{{total}}개 중 {{start}}-{{end}}개 표시",
+    "page": "페이지 {{current}} / {{total}}",
+    "previous": "이전",
+    "next": "다음",
+    "itemsPerPage": "페이지당 항목 수"
+  }
+}
+```
+
+```json
+// src/i18n/locales/ko/cloud.json
+{
+  "title": "클라우드 구성 관리",
+  "subtitle": "클라우드 프로바이더 구성 및 통합 관리",
+  "provider": {
+    "aws": "Amazon Web Services",
+    "azure": "Microsoft Azure", 
+    "gcp": "Google Cloud Platform",
+    "kubernetes": "Kubernetes"
+  },
+  "configuration": {
+    "title": "클라우드 구성",
+    "name": {
+      "label": "구성 이름",
+      "placeholder": "예: Production AWS",
+      "description": "이 구성을 식별하기 위한 이름을 입력하세요."
+    },
+    "description": {
+      "label": "설명",
+      "placeholder": "이 구성에 대한 간단한 설명...",
+      "description": "선택사항: 구성에 대한 추가 설명을 입력하세요."
+    },
+    "provider": {
+      "label": "클라우드 프로바이더",
+      "placeholder": "프로바이더를 선택하세요"
+    },
+    "regions": {
+      "label": "리전",
+      "placeholder": "리전을 선택하세요...",
+      "description": "글로벌 리전은 필수이며 자동으로 포함됩니다.",
+      "global": "글로벌"
+    },
+    "cloudGroups": {
+      "label": "클라우드 그룹", 
+      "placeholder": "클라우드 그룹을 선택하세요...",
+      "description": "이 구성에 대해 하나 이상의 클라우드 그룹을 선택하세요."
+    },
+    "credentials": {
+      "title": "인증 정보",
+      "aws": {
+        "accessKeyId": "Access Key ID",
+        "secretAccessKey": "Secret Access Key", 
+        "roleArn": "Role ARN (선택사항)"
+      },
+      "azure": {
+        "tenantId": "Tenant ID",
+        "subscriptionId": "Subscription ID",
+        "applicationId": "Application ID",
+        "secretKey": "Secret Key"
+      },
+      "gcp": {
+        "projectId": "Project ID",
+        "serviceAccountJson": "Service Account JSON"
+      }
+    },
+    "settings": {
+      "isActive": {
+        "label": "활성 구성",
+        "description": "이벤트 모니터링을 시작하려면 이 구성을 활성화하세요."
+      },
+      "eventProcess": {
+        "label": "이벤트 처리 활성화",
+        "description": "클라우드 이벤트 자동 처리를 활성화합니다."
+      },
+      "userActivity": {
+        "label": "사용자 활동 추적",
+        "description": "사용자 활동 로그를 추적합니다."
+      },
+      "scheduleScan": {
+        "label": "예약 스캔 활성화", 
+        "description": "정기적인 보안 스캔을 활성화합니다."
+      }
+    }
+  },
+  "table": {
+    "headers": {
+      "name": "이름",
+      "provider": "프로바이더",
+      "status": "상태", 
+      "cloudGroups": "클라우드 그룹",
+      "regions": "리전",
+      "eventSources": "이벤트 소스",
+      "updated": "업데이트됨",
+      "userAction": "사용자 액션",
+      "scanSchedule": "스캔 일정"
+    },
+    "status": {
+      "active": "활성",
+      "inactive": "비활성"
+    },
+    "scanSchedule": {
+      "set": "설정됨",
+      "notSet": "설정 안됨"
+    },
+    "userAction": {
+      "on": "ON",
+      "off": "OFF"
+    },
+    "empty": {
+      "title": "클라우드 구성이 없습니다",
+      "description": "첫 번째 클라우드 구성을 생성하여 시작하세요"
+    },
+    "loading": "클라우드 구성을 불러오는 중..."
+  },
+  "dialog": {
+    "create": {
+      "title": "클라우드 구성 생성",
+      "description": "새로운 클라우드 프로바이더 통합을 구성하세요."
+    },
+    "edit": {
+      "title": "클라우드 구성 수정", 
+      "description": "아래 클라우드 구성 설정을 업데이트하세요."
+    },
+    "delete": {
+      "title": "구성 삭제 확인",
+      "description": "이 작업은 되돌릴 수 없습니다. {{name}} 구성을 정말 삭제하시겠습니까?",
+      "confirmText": "DELETE",
+      "placeholder": "삭제를 확인하려면 'DELETE'를 입력하세요"
+    }
+  },
+  "messages": {
+    "success": {
+      "created": "클라우드 구성이 성공적으로 생성되었습니다.",
+      "updated": "클라우드 구성이 성공적으로 수정되었습니다.",
+      "deleted": "클라우드 구성이 성공적으로 삭제되었습니다."
+    },
+    "error": {
+      "loadConfigs": "클라우드 구성을 불러오는데 실패했습니다",
+      "loadDetails": "클라우드 구성 세부정보를 불러오는데 실패했습니다",
+      "create": "클라우드 구성 생성에 실패했습니다",
+      "update": "클라우드 구성 수정에 실패했습니다", 
+      "delete": "클라우드 구성 삭제에 실패했습니다"
+    }
+  }
+}
+```
+
+### 2. 네임스페이스 관리 전략
+
+```typescript
+// src/i18n/config/namespaces.ts
+export const NAMESPACE_CONFIG = {
+  // 공통 네임스페이스 - 모든 페이지에서 사용
+  common: {
+    autoLoad: true,
+    preload: true,
+    fallback: 'en'
+  },
+  
+  // 도메인별 네임스페이스 - 필요시에만 로딩
+  cloud: {
+    autoLoad: false,
+    preload: false,
+    routes: ['/clouds', '/cloud-config'],
+    fallback: 'en'
+  },
+  
+  security: {
+    autoLoad: false,
+    preload: false,
+    routes: ['/security', '/scans'],
+    fallback: 'en'
+  },
+  
+  users: {
+    autoLoad: false,
+    preload: false, 
+    routes: ['/users', '/profile'],
+    fallback: 'en'
+  },
+  
+  // 에러 메시지 - 항상 프리로드
+  errors: {
+    autoLoad: true,
+    preload: true,
+    fallback: 'en'
+  }
+} as const
+
+export type NamespaceKey = keyof typeof NAMESPACE_CONFIG
+```
+
+---
+
+## 🎯 결론
+
+테이텀 시큐리티의 글로벌 서비스를 위한 i18n 구현에서는:
+
+1. **체계적인 아키텍처**: 명확한 구조와 네임스페이스 관리
+2. **자동화된 워크플로우**: 번역 키 생성부터 품질 검증까지
+3. **타입 안전성**: TypeScript를 활용한 컴파일 타임 검증
+4. **성능 최적화**: 지연 로딩과 메모리 관리를 통한 효율성
+5. **품질 관리**: 자동화된 검증과 일관성 유지
+6. **개발자 경험**: 직관적인 API와 개발 도구 제공
+
+이러한 전략을 통해 번역 관리의 복잡성을 해결하고, 개발자 생산성을 향상시키며, 높은 품질의 다국어 사용자 경험을 제공할 수 있습니다.
+
+---
+
+*본 문서는 테이텀 시큐리티의 실제 글로벌 서비스 운영 경험을 바탕으로 작성된 실무 중심의 i18n 가이드입니다.*

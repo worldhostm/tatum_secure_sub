@@ -3,7 +3,7 @@ import { CloudConfig } from "@/types/types"
 export const mockCloudConfigs: CloudConfig[] = [
   {
     id: "1",
-    name: "Production AWS",
+    name: "AWS",
     description: "Main production environment for AWS services",
     provider: "aws",
     cloudGroupName: ["production"],
@@ -24,7 +24,7 @@ export const mockCloudConfigs: CloudConfig[] = [
   },
   {
     id: "2", 
-    name: "Development AWS",
+    name: "AWS",
     description: "Development and testing environment",
     provider: "aws",
     cloudGroupName: ["development", "testing"],
@@ -44,7 +44,7 @@ export const mockCloudConfigs: CloudConfig[] = [
   },
   {
     id: "3",
-    name: "Staging Environment", 
+    name: "AWS", 
     description: "Pre-production staging environment",
     provider: "aws",
     cloudGroupName: ["staging"],
@@ -64,7 +64,7 @@ export const mockCloudConfigs: CloudConfig[] = [
   },
   {
     id: "4",
-    name: "Multi-Region Setup",
+    name: "AWS",
     description: "Global multi-region configuration",
     provider: "aws",
     cloudGroupName: ["production", "qa"],

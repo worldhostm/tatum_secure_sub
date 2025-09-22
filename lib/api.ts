@@ -1,13 +1,43 @@
 import { CloudConfig, CloudConfigFormData } from "@/types/types"
 import { mockCloudConfigs } from "./data"
 
-const mockData = [...mockCloudConfigs]
+const STORAGE_KEY = 'cloud-configs'
+
+// localStorage에서 데이터 로드, 없으면 기본 mockData 사용
+const loadFromStorage = (): CloudConfig[] => {
+  if (typeof window === 'undefined') return [...mockCloudConfigs]
+  
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      return JSON.parse(stored)
+    }
+  } catch (error) {
+    console.error('Failed to load from localStorage:', error)
+  }
+  
+  return [...mockCloudConfigs]
+}
+
+// localStorage에 데이터 저장
+const saveToStorage = (data: CloudConfig[]) => {
+  if (typeof window === 'undefined') return
+  
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  } catch (error) {
+    console.error('Failed to save to localStorage:', error)
+  }
+}
+
+let mockData = loadFromStorage()
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 export const cloudApi = {
   async getCloudConfigs(): Promise<CloudConfig[]> {
     await delay(500)
+    mockData = loadFromStorage() // 항상 최신 데이터 로드
     return [...mockData]
   },
 
@@ -34,6 +64,7 @@ export const cloudApi = {
     }
     
     mockData.push(newConfig)
+    saveToStorage(mockData) // localStorage에 저장
     console.log("Create Cloud Config Payload:", data)
     return { ...newConfig }
   },
@@ -60,6 +91,7 @@ export const cloudApi = {
     }
 
     mockData[index] = updatedConfig
+    saveToStorage(mockData) // localStorage에 저장
     console.log("Update Cloud Config Payload:", data)
     return { ...updatedConfig }
   },
@@ -73,6 +105,7 @@ export const cloudApi = {
     }
 
     mockData.splice(index, 1)
+    saveToStorage(mockData) // localStorage에 저장
     console.log("Delete Cloud Config ID:", id)
   }
 }

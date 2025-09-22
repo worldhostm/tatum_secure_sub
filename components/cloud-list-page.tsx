@@ -32,12 +32,12 @@ export function CloudListPage() {
     }
   }
 
-  const handleCreate = () => {
+  const onCreateNew = () => {
     setEditingConfig(undefined)
     setDialogOpen(true)
   }
 
-  const handleEdit = async (id: string) => {
+  const onEditConfig = async (id: string) => {
     try {
       const config = await cloudApi.getCloudConfig(id)
       if (config) {
@@ -50,13 +50,24 @@ export function CloudListPage() {
     }
   }
 
-  const handleDialogClose = () => {
+  const onDeleteConfig = async (id: string) => {
+    try {
+      await cloudApi.deleteCloudConfig(id)
+      toast.success("Cloud configuration deleted successfully")
+      loadCloudConfigs()
+    } catch (error) {
+      console.error("Failed to delete cloud config:", error)
+      toast.error("Failed to delete cloud configuration")
+    }
+  }
+
+  const onDialogClose = () => {
     setDialogOpen(false)
     setEditingConfig(undefined)
   }
 
-  const handleSuccess = () => {
-    handleDialogClose()
+  const onSaveSuccess = () => {
+    onDialogClose()
     loadCloudConfigs()
   }
 
@@ -69,7 +80,7 @@ export function CloudListPage() {
             Manage your cloud provider configurations and integrations
           </p>
         </div>
-        <Button onClick={handleCreate} className="flex items-center gap-2 bg-[#3b36cf] hover:bg-[#342db8] text-white hover-lift">
+        <Button onClick={onCreateNew} className="flex items-center gap-2 bg-[#3b36cf] hover:bg-[#342db8] text-white hover-lift">
           <Plus className="h-4 w-4" />
           Create Cloud Configuration
         </Button>
@@ -78,14 +89,15 @@ export function CloudListPage() {
       <CloudTable 
         configs={cloudConfigs} 
         loading={loading} 
-        onEdit={handleEdit}
+        onEdit={onEditConfig}
+        onDelete={onDeleteConfig}
       />
 
       <CloudDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         config={editingConfig}
-        onSuccess={handleSuccess}
+        onSuccess={onSaveSuccess}
       />
     </div>
   )

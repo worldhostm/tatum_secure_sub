@@ -8,6 +8,10 @@ import {
   CloudConfigFormData,
   CloudConfigSchema,
   CloudProvider,
+  CloudCredentials,
+  AWSCredential,
+  AzureCredential,
+  GCPCredential,
   PROVIDER_CONFIGS,
   CLOUD_GROUP_NAMES,
   REGIONS
@@ -73,10 +77,10 @@ export function CloudDialog({ open, onOpenChange, config, onSuccess }: CloudDial
 
   useEffect(() => {
     if (open && config) {
-      const credentials = {
-        aws: config.provider === "aws" ? config.credentials : undefined,
-        azure: config.provider === "azure" ? config.credentials : undefined,
-        gcp: config.provider === "gcp" ? config.credentials : undefined,
+      const credentials: CloudCredentials = {
+        aws: config.provider === "aws" ? config.credentials as AWSCredential : undefined,
+        azure: config.provider === "azure" ? config.credentials as AzureCredential : undefined,
+        gcp: config.provider === "gcp" ? config.credentials as GCPCredential : undefined,
       }
       
       form.reset({
@@ -152,7 +156,7 @@ export function CloudDialog({ open, onOpenChange, config, onSuccess }: CloudDial
     }
   }
 
-  const handleProviderChange = (provider: CloudProvider) => {
+  const onProviderChange = (provider: CloudProvider) => {
     form.setValue("provider", provider)
     form.setValue("credentials", {})
     form.setValue("eventSource", [])
@@ -234,7 +238,7 @@ export function CloudDialog({ open, onOpenChange, config, onSuccess }: CloudDial
                   <FormItem>
                     <FormLabel>Cloud Provider</FormLabel>
                     <Select 
-                      onValueChange={handleProviderChange} 
+                      onValueChange={onProviderChange} 
                       value={field.value}
                       disabled={watchedProvider !== "aws"}
                     >
@@ -362,12 +366,12 @@ export function CloudDialog({ open, onOpenChange, config, onSuccess }: CloudDial
                 control={form.control}
                 name="isActive"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                      <FormLabel className="text-base">
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border-2 border-gray-200 bg-gray-50/50 p-6 hover:bg-gray-50 transition-colors">
+                    <div className="space-y-1">
+                      <FormLabel className="text-base font-semibold text-gray-900">
                         Active Configuration
                       </FormLabel>
-                      <FormDescription>
+                      <FormDescription className="text-sm text-gray-600">
                         Enable this configuration to start monitoring events.
                       </FormDescription>
                     </div>
@@ -375,6 +379,7 @@ export function CloudDialog({ open, onOpenChange, config, onSuccess }: CloudDial
                       <Switch
                         checked={field.value}
                         onCheckedChange={field.onChange}
+                        className="ml-4"
                       />
                     </FormControl>
                   </FormItem>

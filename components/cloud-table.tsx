@@ -3,6 +3,7 @@
 import { CloudConfig, REGIONS } from "@/types/types"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { CloudProviderLogo } from "@/components/cloud-provider-logo"
 import {
   Table,
   TableBody,
@@ -11,32 +12,41 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Edit, Loader2, ChevronLeft, ChevronRight } from "lucide-react"
-import { useMemo, useCallback, useState, memo } from "react"
+import { Edit, Loader2, ChevronLeft, ChevronRight, Trash2, Power, PowerOff } from "lucide-react"
+import { useMemo, useCallback, useState, memo, useEffect, useRef } from "react"
 
 interface CloudTableProps {
   configs: CloudConfig[]
   loading: boolean
   onEdit: (id: string) => void
+  onDelete: (id: string) => void
 }
 
 interface TableRowProps {
   config: CloudConfig
   onEdit: (id: string) => void
+  onDelete: (id: string) => void
+  showShadow: boolean
 }
 
 const ITEMS_PER_PAGE = 50
 
-const CloudTableRow = memo(({ config, onEdit }: TableRowProps) => {
-  const handleEdit = useCallback(() => {
+const CloudTableRow = memo(({ config, onEdit, onDelete, showShadow }: TableRowProps) => {
+  const onEditClick = useCallback(() => {
     if (config.id) {
       onEdit(config.id)
     }
   }, [config.id, onEdit])
 
+  const onDeleteClick = useCallback(() => {
+    if (config.id) {
+      onDelete(config.id)
+    }
+  }, [config.id, onDelete])
+
   const cloudGroups = useMemo(() => {
     return config.cloudGroupName?.map((group: string) => (
-      <Badge key={group} variant="secondary" className="text-xs">
+      <Badge key={group} variant="secondary" className="text-xs bg-[#f0efff] text-[#3b36cf] border-[#e0dfff] hover:bg-[#e8e7ff]">
         {group}
       </Badge>
     ))
@@ -44,14 +54,14 @@ const CloudTableRow = memo(({ config, onEdit }: TableRowProps) => {
 
   const regions = useMemo(() => {
     const regionBadges = config.regionList.slice(0, 3).map((region: string) => (
-      <Badge key={region} variant="outline" className="text-xs">
+      <Badge key={region} variant="outline" className="text-xs bg-[#f0efff] text-[#3b36cf] border-[#e0dfff] hover:bg-[#e8e7ff]">
         {REGIONS[region] || region}
       </Badge>
     ))
 
     if (config.regionList.length > 3) {
       regionBadges.push(
-        <Badge key="more" variant="outline" className="text-xs">
+        <Badge key="more" variant="outline" className="text-xs bg-[#f0efff] text-[#3b36cf] border-[#e0dfff] hover:bg-[#e8e7ff]">
           +{config.regionList.length - 3} more
         </Badge>
       )
@@ -88,22 +98,20 @@ const CloudTableRow = memo(({ config, onEdit }: TableRowProps) => {
 
   return (
     <TableRow>
-      <TableCell className="min-w-[140px]">
+      <TableCell className={`min-w-[140px] sticky left-0 bg-white z-20 border-r ${showShadow ? 'shadow-lg' : ''}`}>
         <div>
           <div className="font-medium text-foreground hover:text-[#3b36cf] transition-colors duration-200">
             {config.name}
           </div>
-          {config.description && (
+          {/* {config.description && (
             <div className="text-sm text-muted-foreground">
               {config.description}
             </div>
-          )}
+          )} */}
         </div>
       </TableCell>
-      <TableCell className="min-w-[80px]">
-        <Badge variant="outline" className="uppercase">
-          {config.provider}
-        </Badge>
+      <TableCell className="min-w-[100px]">
+        <CloudProviderLogo provider={config.provider} size={20} />
       </TableCell>
       <TableCell className="min-w-[80px]">
         <Badge
@@ -113,35 +121,69 @@ const CloudTableRow = memo(({ config, onEdit }: TableRowProps) => {
           {config.isActive ? "Active" : "Inactive"}
         </Badge>
       </TableCell>
-      <TableCell className="min-w-[120px] hidden md:table-cell">
+      <TableCell className="min-w-[120px]">
         <div className="flex flex-wrap gap-1">
           {cloudGroups}
         </div>
       </TableCell>
-      <TableCell className="min-w-[120px] hidden lg:table-cell">
+      <TableCell className="min-w-[120px]">
         <div className="flex flex-wrap gap-1">
           {regions}
         </div>
       </TableCell>
-      <TableCell className="min-w-[120px] hidden xl:table-cell">
+      <TableCell className="min-w-[120px]">
         <div className="flex flex-wrap gap-1">
           {eventSources}
         </div>
       </TableCell>
-      <TableCell className="min-w-[100px] hidden sm:table-cell">
+      <TableCell className="min-w-[100px]">
         <time className="text-sm text-muted-foreground">
           {formattedDate}
         </time>
       </TableCell>
-      <TableCell className="text-right min-w-[80px] w-[80px]">
+      <TableCell className="min-w-[100px]">
+        <div className="flex items-center gap-2">
+          {config.isActive ? (
+            <Power className="h-4 w-4 text-green-500" />
+          ) : (
+            <PowerOff className="h-4 w-4 text-gray-400" />
+          )}
+          <span className="text-sm font-medium">
+            {config.isActive ? "ON" : "OFF"}
+          </span>
+        </div>
+      </TableCell>
+      <TableCell className="min-w-[100px]">
+        <Badge 
+          variant={config.scheduleScanEnabled ? "default" : "secondary"}
+          className={config.scheduleScanEnabled 
+            ? "bg-[#3b36cf] hover:bg-[#342db8] text-white" 
+            : "bg-gray-100 text-gray-600"
+          }
+        >
+          {config.scheduleScanEnabled ? "Set" : "Not set"}
+        </Badge>
+      </TableCell>
+      <TableCell className="text-center w-[60px] sticky right-[60px] bg-white z-20 border-l shadow-sm">
         <Button
           variant="ghost"
           size="sm"
-          onClick={handleEdit}
-          className="h-8 w-8 p-0 hover:bg-[#f0efff] hover:text-[#3b36cf] hover-scale transition-all duration-200"
+          onClick={onEditClick}
+          className="h-8 w-8 p-0 hover:bg-[#f0efff] transition-all duration-200"
         >
-          <Edit className="h-4 w-4" />
+          <Edit className="h-4 w-4 text-[#3b36cf]" />
           <span className="sr-only">Edit {config.name}</span>
+        </Button>
+      </TableCell>
+      <TableCell className="text-center w-[60px] sticky right-0 bg-white z-20 border-l shadow-sm">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onDeleteClick}
+          className="h-8 w-8 p-0 hover:bg-red-50 transition-all duration-200"
+        >
+          <Trash2 className="h-4 w-4 text-red-500" />
+          <span className="sr-only">Delete {config.name}</span>
         </Button>
       </TableCell>
     </TableRow>
@@ -150,10 +192,33 @@ const CloudTableRow = memo(({ config, onEdit }: TableRowProps) => {
 
 CloudTableRow.displayName = "CloudTableRow"
 
-export function CloudTable({ configs, loading, onEdit }: CloudTableProps) {
+export function CloudTable({ configs, loading, onEdit, onDelete }: CloudTableProps) {
   const [currentPage, setCurrentPage] = useState(0)
+  const [showShadow, setShowShadow] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const memoizedOnEdit = useCallback(onEdit, [onEdit])
+  const memoizedOnDelete = useCallback(onDelete, [onDelete])
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (scrollRef.current) {
+        const { scrollLeft } = scrollRef.current
+        setShowShadow(scrollLeft > 0)
+      }
+    }
+
+    const scrollElement = scrollRef.current
+    if (scrollElement) {
+      scrollElement.addEventListener('scroll', onScroll)
+      // 초기 상태 체크
+      onScroll()
+      
+      return () => {
+        scrollElement.removeEventListener('scroll', onScroll)
+      }
+    }
+  }, [])
 
   const paginatedConfigs = useMemo(() => {
     const startIndex = currentPage * ITEMS_PER_PAGE
@@ -165,11 +230,11 @@ export function CloudTable({ configs, loading, onEdit }: CloudTableProps) {
     return Math.ceil(configs.length / ITEMS_PER_PAGE)
   }, [configs.length])
 
-  const handlePreviousPage = useCallback(() => {
+  const onPreviousPage = useCallback(() => {
     setCurrentPage((prev) => Math.max(0, prev - 1))
   }, [])
 
-  const handleNextPage = useCallback(() => {
+  const onNextPage = useCallback(() => {
     setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
   }, [totalPages])
 
@@ -202,29 +267,38 @@ export function CloudTable({ configs, loading, onEdit }: CloudTableProps) {
   return (
     <div className="space-y-4">
       <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="min-w-[140px]">Name</TableHead>
-              <TableHead className="min-w-[80px]">Provider</TableHead>
-              <TableHead className="min-w-[80px]">Status</TableHead>
-              <TableHead className="min-w-[120px] hidden md:table-cell">Cloud Groups</TableHead>
-              <TableHead className="min-w-[120px] hidden lg:table-cell">Regions</TableHead>
-              <TableHead className="min-w-[120px] hidden xl:table-cell">Event Sources</TableHead>
-              <TableHead className="min-w-[100px] hidden sm:table-cell">Updated</TableHead>
-              <TableHead className="text-right min-w-[80px] w-[80px]">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {paginatedConfigs.map((config) => (
-              <CloudTableRow
-                key={config.id}
-                config={config}
-                onEdit={memoizedOnEdit}
-              />
-            ))}
-          </TableBody>
-        </Table>
+        <div className="relative">
+          <div ref={scrollRef} className="overflow-x-auto">
+            <Table className="relative min-w-[1200px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className={`min-w-[140px] sticky left-0 bg-white z-20 border-r ${showShadow ? 'shadow-lg' : ''}`}>Name</TableHead>
+                  <TableHead className="min-w-[100px]">Provider</TableHead>
+                  <TableHead className="min-w-[80px]">Status</TableHead>
+                  <TableHead className="min-w-[120px]">Cloud Groups</TableHead>
+                  <TableHead className="min-w-[120px]">Regions</TableHead>
+                  <TableHead className="min-w-[120px]">Event Sources</TableHead>
+                  <TableHead className="min-w-[100px]">Updated</TableHead>
+                  <TableHead className="min-w-[100px]">User Action</TableHead>
+                  <TableHead className="min-w-[100px]">Scan Schedule</TableHead>
+                  <TableHead className="text-center w-[60px] sticky right-[60px] bg-white z-20 border-l shadow-sm">Edit</TableHead>
+                  <TableHead className="text-center w-[60px] sticky right-0 bg-white z-20 border-l shadow-sm">Delete</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paginatedConfigs.map((config) => (
+                  <CloudTableRow
+                    key={config.id}
+                    config={config}
+                    onEdit={memoizedOnEdit}
+                    onDelete={memoizedOnDelete}
+                    showShadow={showShadow}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
       </div>
 
       {totalPages > 1 && (
@@ -237,7 +311,7 @@ export function CloudTable({ configs, loading, onEdit }: CloudTableProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={handlePreviousPage}
+              onClick={onPreviousPage}
               disabled={currentPage === 0}
               className="h-8 w-8 p-0"
             >
@@ -250,7 +324,7 @@ export function CloudTable({ configs, loading, onEdit }: CloudTableProps) {
             <Button
               variant="outline"
               size="sm"
-              onClick={handleNextPage}
+              onClick={onNextPage}
               disabled={currentPage >= totalPages - 1}
               className="h-8 w-8 p-0"
             >
